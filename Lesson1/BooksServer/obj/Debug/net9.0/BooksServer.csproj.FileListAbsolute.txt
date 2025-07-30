@@ -74,3 +74,4 @@ C:\Users\Farid\RiderProjects\EntityFraemwork\Lesson1\BooksServer\obj\Debug\net9.
 C:\Users\Farid\RiderProjects\EntityFraemwork\Lesson1\BooksServer\obj\Debug\net9.0\BooksServer.pdb
 C:\Users\Farid\RiderProjects\EntityFraemwork\Lesson1\BooksServer\obj\Debug\net9.0\BooksServer.genruntimeconfig.cache
 C:\Users\Farid\RiderProjects\EntityFraemwork\Lesson1\BooksServer\obj\Debug\net9.0\ref\BooksServer.dll
+C:\Users\Farid\RiderProjects\EntityFraemwork\Lesson1\BooksServer\obj\Debug\net9.0\BooksServer.sourcelink.json
