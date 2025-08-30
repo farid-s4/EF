@@ -1,0 +1,73 @@
+2025-08-30 18:40:25 | Warning     | EventId: 10400 | Category: Microsoft.EntityFrameworkCore.Model.Validation | Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2025-08-30 18:40:41 | Warning     | EventId: 10400 | Category: Microsoft.EntityFrameworkCore.Model.Validation | Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.
+2025-08-30 18:40:42 | Information | EventId: 20101 | Category: Microsoft.EntityFrameworkCore.Database.Command | Executed DbCommand (129ms) [Parameters=[], CommandType='Text', CommandTimeout='60']
+CREATE DATABASE [AutoServiceData];
+2025-08-30 18:40:42 | Information | EventId: 20101 | Category: Microsoft.EntityFrameworkCore.Database.Command | Executed DbCommand (45ms) [Parameters=[], CommandType='Text', CommandTimeout='60']
+IF SERVERPROPERTY('EngineEdition') <> 5
+BEGIN
+    ALTER DATABASE [AutoServiceData] SET READ_COMMITTED_SNAPSHOT ON;
+END;
+2025-08-30 18:40:42 | Information | EventId: 20101 | Category: Microsoft.EntityFrameworkCore.Database.Command | Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+2025-08-30 18:40:42 | Information | EventId: 20411 | Category: Microsoft.EntityFrameworkCore.Migrations | Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-08-30 18:40:42 | Information | EventId: 20101 | Category: Microsoft.EntityFrameworkCore.Database.Command | Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-08-30 18:40:42 | Information | EventId: 20101 | Category: Microsoft.EntityFrameworkCore.Database.Command | Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-08-30 18:40:42 | Information | EventId: 20101 | Category: Microsoft.EntityFrameworkCore.Database.Command | Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+2025-08-30 18:40:42 | Information | EventId: 20101 | Category: Microsoft.EntityFrameworkCore.Database.Command | Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-08-30 18:40:42 | Information | EventId: 20101 | Category: Microsoft.EntityFrameworkCore.Database.Command | Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-08-30 18:40:42 | Information | EventId: 20402 | Category: Microsoft.EntityFrameworkCore.Migrations | Applying migration '20250830144025_InitialCreate'.
+2025-08-30 18:40:42 | Information | EventId: 20101 | Category: Microsoft.EntityFrameworkCore.Database.Command | Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE TABLE [Clients] (
+    [Id] nvarchar(450) NOT NULL,
+    [Name] nvarchar(30) NOT NULL,
+    [Password] nvarchar(max) NOT NULL,
+    CONSTRAINT [PK_Clients] PRIMARY KEY ([Id])
+);
+2025-08-30 18:40:42 | Information | EventId: 20101 | Category: Microsoft.EntityFrameworkCore.Database.Command | Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE TABLE [Cars] (
+    [Id] nvarchar(450) NOT NULL,
+    [CarName] nvarchar(30) NULL,
+    [ClientId] nvarchar(450) NOT NULL,
+    CONSTRAINT [PK_Cars] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Cars_Clients_ClientId] FOREIGN KEY ([ClientId]) REFERENCES [Clients] ([Id]) ON DELETE CASCADE
+);
+2025-08-30 18:40:42 | Information | EventId: 20101 | Category: Microsoft.EntityFrameworkCore.Database.Command | Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE TABLE [Orders] (
+    [Id] nvarchar(450) NOT NULL,
+    [Description] nvarchar(200) NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
+    [ClientId] nvarchar(450) NOT NULL,
+    [CarId] nvarchar(450) NOT NULL,
+    CONSTRAINT [PK_Orders] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Orders_Cars_CarId] FOREIGN KEY ([CarId]) REFERENCES [Cars] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_Orders_Clients_ClientId] FOREIGN KEY ([ClientId]) REFERENCES [Clients] ([Id]) ON DELETE CASCADE
+);
+2025-08-30 18:40:42 | Information | EventId: 20101 | Category: Microsoft.EntityFrameworkCore.Database.Command | Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE INDEX [IX_Cars_ClientId] ON [Cars] ([ClientId]);
+2025-08-30 18:40:42 | Information | EventId: 20101 | Category: Microsoft.EntityFrameworkCore.Database.Command | Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE INDEX [IX_Orders_CarId] ON [Orders] ([CarId]);
+2025-08-30 18:40:42 | Information | EventId: 20101 | Category: Microsoft.EntityFrameworkCore.Database.Command | Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE INDEX [IX_Orders_ClientId] ON [Orders] ([ClientId]);
+2025-08-30 18:40:42 | Information | EventId: 20101 | Category: Microsoft.EntityFrameworkCore.Database.Command | Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20250830144025_InitialCreate', N'9.0.7');
+2025-08-30 18:40:42 | Information | EventId: 20101 | Category: Microsoft.EntityFrameworkCore.Database.Command | Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
